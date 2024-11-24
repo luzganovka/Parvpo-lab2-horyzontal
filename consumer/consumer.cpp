@@ -61,6 +61,37 @@ std::list<int> matrixMultiply(const std::list<int>& matrix1, const std::list<int
 }
 
 /*
+*   Calculates a certain piece of the result matrix.
+*   Gets two matrixes, given as two one-dimension lists.
+*   it, it1, it2 -- are iterators for result, first and second matrixes respectively.
+*/
+std::list<int> pieceMatrixMultiply(const std::list<int>& matrix1, const std::list<int>& matrix2, int size) {
+    std::list<int> result(size * size / p, 0);
+
+    auto it = result.begin();
+
+    for (int i = pid * (MSize / p); i < (pid + 1) * (MSize / p); ++i) {    // for several lines in matrix1
+        for (int j = 0; j < size; ++j) {    // for all columns in matrix2
+            auto it1 = matrix1.begin();
+            std::advance(it1, i * size);
+            
+            auto it2 = matrix2.begin();
+            std::advance(it2, j);
+            
+            for (int k = 0; k < size; ++k) {
+                *it += *it1 * *it2;
+                std::advance(it1, 1);
+                std::advance(it2, size);
+            }
+            
+            ++it;
+        }
+    }
+    
+    return result;
+}
+
+/*
 *   Returns true if given num is a square of some numeric.
 */
 bool isPerfectSquare(int num) {
@@ -136,6 +167,7 @@ int main() {
     .methods("POST"_method)(
         [&](const crow::request& req, crow::response& res) {
             // Read the HTTP request
+//TODO: now we want to get two additional headers exept 'body'. They are 'p_num' and 'pid'
             std::string requestContent = req.body;
 
             //std::cout << requestContent << std::endl;
