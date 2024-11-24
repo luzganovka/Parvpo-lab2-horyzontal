@@ -1,0 +1,24 @@
+Allright. We need to:
+1) Rewrite consumer so that it could
+    - multiply a part of the matrix [OK]
+    - and send calculated area to the NGINX line by line
+2) Edit nginx so that it could
+    - broadcast producers' data to consumers
+    - resend consumers' results to the superconsumer
+3) Edit docker-compose.yaml so that it could lounch multiple consumers and the supercinsumer
+4) Create the superconsumer (perhaps, using python)
+============================================================================================
+How can consumer know the number of consumers? And it's number among them?
+todo: solve the problem of the rest of lines!
+============================================================================================
+We'll start with p.1 - rewrite consumer.cpp!
+    Old consumer.cpp copied to dev/
+    How can consumer know the number of consumers? And it's number among them?
+    Algorithm:
+        1. Get the hole two matrixes    [OK]
+        2. Figure out p and pid [TMP]
+        3. Form a list of shape [MSize / p; MSize]  [OK]
+            todo: solve the problem of the rest of lines!
+        4. Calculate every element: RESij = SUM(0~MSize)(Ai * Bj)   [OK]
+            i = [pid * (MSize / p); (pid + 1) * (MSize / p)]
+            j = [0; MSize]
