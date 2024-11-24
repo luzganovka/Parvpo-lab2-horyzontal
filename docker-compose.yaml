@@ -1,4 +1,4 @@
-#version: '2'
+# version: '2'
 
 services:
   nginx:
@@ -6,13 +6,14 @@ services:
     hostname: nginx
     domainname: nginx
     volumes:
-      - /home/user/docker/PARVPO/lab2.b/nginx.conf:/etc/nginx/nginx.conf
-      - /home/user/docker/PARVPO/lab2.b/nginx-default.conf:/etc/nginx/conf.d/default.conf
+      - /home/luki/Study/PARVPO/PARVPO/lab2.b/nginx.conf:/etc/nginx/nginx.conf
+      - /home/luki/Study/PARVPO/PARVPO/lab2.b/nginx-default.conf:/etc/nginx/conf.d/default.conf
     depends_on:
       - consumer_1
-        # - consumer_2
-      - producer1
-      - producer2
+      - consumer_2
+      - consumer_3
+        #- producer1
+        #- producer2
     networks:
       lab2network:
         aliases:
@@ -27,8 +28,9 @@ services:
     env_file:
       - ./MSize.env
     depends_on:
-      - consumer_1
-        #      - consumer_2
+      - nginx
+        #- consumer_1
+        #- consumer_2
     networks:
       - lab2network
 
@@ -39,8 +41,9 @@ services:
     env_file:
       - ./MSize.env
     depends_on:
-      - consumer_1
-        #      - consumer_2
+      - nginx
+        #- consumer_1
+        #- consumer_2
     networks:
       - lab2network
 
@@ -55,16 +58,27 @@ services:
         limits:
           cpus: "3"
 
-#  consumer_2:
-#    build:
-#      context: ./consumer
-#      no_cache: true
-#    networks:
-#      - lab2network
-#    deploy:
-#      resources:
-#        limits:
-#          cpus: "3"
+  consumer_2:
+    build:
+      context: ./consumer
+      no_cache: true
+    networks:
+      - lab2network
+    deploy:
+      resources:
+        limits:
+          cpus: "3"
+
+  consumer_3:
+    build:
+      context: ./consumer
+      no_cache: true
+    networks:
+      - lab2network
+    deploy:
+      resources:
+        limits:
+          cpus: "3"
 
 networks:
   lab2network:

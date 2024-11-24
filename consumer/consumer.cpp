@@ -65,12 +65,12 @@ std::list<int> matrixMultiply(const std::list<int>& matrix1, const std::list<int
 *   Gets two matrixes, given as two one-dimension lists.
 *   it, it1, it2 -- are iterators for result, first and second matrixes respectively.
 */
-std::list<int> pieceMatrixMultiply(const std::list<int>& matrix1, const std::list<int>& matrix2, int size) {
+std::list<int> pieceMatrixMultiply(const std::list<int>& matrix1, const std::list<int>& matrix2, const int size, const int p, const int pid) {
     std::list<int> result(size * size / p, 0);
 
     auto it = result.begin();
 
-    for (int i = pid * (MSize / p); i < (pid + 1) * (MSize / p); ++i) {    // for several lines in matrix1
+    for (int i = pid * (size / p); i < (pid + 1) * (size / p); ++i) {    // for several lines in matrix1
         for (int j = 0; j < size; ++j) {    // for all columns in matrix2
             auto it1 = matrix1.begin();
             std::advance(it1, i * size);
@@ -167,10 +167,12 @@ int main() {
     .methods("POST"_method)(
         [&](const crow::request& req, crow::response& res) {
             // Read the HTTP request
-//TODO: now we want to get two additional headers exept 'body'. They are 'p_num' and 'pid'
+//TODO: enable after we edit nginx-default.conf and .yaml
+            // int p_num = atoi(req.p_num);
+            // int pid = atoi(req.pid);
             std::string requestContent = req.body;
 
-            //std::cout << requestContent << std::endl;
+            // std::cout << p_num << "; " << pid << std::endl;
             
             // Check the type of producer
             auto tmp = getData(requestContent);
