@@ -5,6 +5,8 @@
 #include <cmath>
 #include <list>
 
+
+
 std::vector<int> matrix1_demo;
 std::vector<int> matrix2_demo;
 int got_data = 0;   // some flag
@@ -167,11 +169,7 @@ int main() {
     .methods("POST"_method)(
         [&](const crow::request& req, crow::response& res) {
             // Read the HTTP request
-            int p_num = stoi(req.get_header_value("p_num"));
-            int pid = stoi(req.get_header_value("pid"));
             std::string requestContent = req.body;
-// HI!
-            std::cout << "p_num = " << p_num << "; pid = " << pid << std::endl;
             
             // Check the type of producer
             auto tmp = getData(requestContent);
@@ -214,15 +212,24 @@ int main() {
 
     CROW_ROUTE(app, "/end").methods("POST"_method)(
         [&](const crow::request& req, crow::response& res) {
+            
+            // Read the HTTP request
+            int p_num = stoi(req.get_header_value("p_num"));
+            int pid = stoi(req.get_header_value("pid"));
+            // std::cout << "p_num = " << p_num << "; pid = " << pid << std::endl;
+
             got_data += 1;
 
             if (got_data == 2) {
-                // std::cout << "Hello matherfucking World!" << std::endl;
+                std::cout << "Result: " << std::endl;
+
                 auto timer1 = std::chrono::high_resolution_clock::now();
 
                 if (isPerfectSquare(matrix1_demo.size()) && isPerfectSquare(matrix2_demo.size())) {
-                    // std::cout << "Result: " << std::endl;
-                    std::list<int> result = matrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()));
+                    std::list<int> result = pieceMatrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()), p_num, pid);
+
+                    std::cout << "consumer " << pid << " of " << p_num - 1 << " has calculated matrix of size "
+                        << sqrt(matrix1_demo.size())  << " * " << result.size() / sqrt(matrix1_demo.size()) << std::endl;
                     // for (int i = 0; i < result.size(); i++) {
                     //     std::cout << result[i] << " ";
                     // }
