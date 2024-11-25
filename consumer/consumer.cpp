@@ -167,12 +167,11 @@ int main() {
     .methods("POST"_method)(
         [&](const crow::request& req, crow::response& res) {
             // Read the HTTP request
-//TODO: enable after we edit nginx-default.conf and .yaml
-            // int p_num = atoi(req.p_num);
-            // int pid = atoi(req.pid);
+            int p_num = stoi(req.get_header_value("p_num"));
+            int pid = stoi(req.get_header_value("pid"));
             std::string requestContent = req.body;
-
-            // std::cout << p_num << "; " << pid << std::endl;
+// HI!
+            std::cout << "p_num = " << p_num << "; pid = " << pid << std::endl;
             
             // Check the type of producer
             auto tmp = getData(requestContent);

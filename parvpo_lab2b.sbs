@@ -3,7 +3,8 @@ Allright. We need to:
     - multiply a part of the matrix [OK]
     - and send calculated area to the NGINX line by line
 2) Edit nginx so that it could
-    - broadcast producers' data to consumers
+    - broadcast producers' data to consumers    [OK]
+    - adds p_num and pid into the HTP request   [OK]
     - resend consumers' results to the superconsumer
 3) Edit docker-compose.yaml so that it could lounch multiple consumers and the supercinsumer
 4) Create the superconsumer (perhaps, using python)
@@ -22,3 +23,11 @@ We'll start with p.1 - rewrite consumer.cpp!
         4. Calculate every element: RESij = SUM(0~MSize)(Ai * Bj)   [OK]
             i = [pid * (MSize / p); (pid + 1) * (MSize / p)]
             j = [0; MSize]
+========================================================================
+sudo docker network ls
+    42ba56548ab7   lab2b_lab2network   bridge    local
+ip link
+    3: br-42ba56548ab7: <NO-CARRIER,BROADCAST,MULTICAST,UP> mtu 1500 qdisc noqueue state DOWN mode DEFAULT group default 
+    link/ether 02:42:bf:67:66:6c brd ff:ff:ff:ff:ff:ff
+tcpdump -i br-42ba56548ab7 -w ./dev/tcp.dump
+wireshark -f ./dev/tcp.dump
