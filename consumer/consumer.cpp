@@ -229,7 +229,7 @@ int main() {
                     std::list<int> result = pieceMatrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()), p_num, pid);
 
                     std::cout << "consumer " << pid << " of " << p_num - 1 << " has calculated matrix of size "
-                        << sqrt(matrix1_demo.size())  << " * " << result.size() / sqrt(matrix1_demo.size()) << std::endl;
+                        << result.size() / sqrt(matrix1_demo.size()) << " * " << sqrt(matrix1_demo.size()) << std::endl;
                     // for (int i = 0; i < result.size(); i++) {
                     //     std::cout << result[i] << " ";
                     // }
