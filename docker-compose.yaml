@@ -51,6 +51,8 @@ services:
     build:
       context: ./consumer
       no_cache: true
+    depends_on:
+      - adder
     networks:
       - lab2network
     deploy:
@@ -62,6 +64,8 @@ services:
     build:
       context: ./consumer
       no_cache: true
+    depends_on:
+      - adder
     networks:
       - lab2network
     deploy:
@@ -73,6 +77,8 @@ services:
     build:
       context: ./consumer
       no_cache: true
+    depends_on:
+      - adder
     networks:
       - lab2network
     deploy:
@@ -80,12 +86,12 @@ services:
         limits:
           cpus: "3"
 
-  # adder:
-  #   build:
-  #     context: ./adder
-  #     no_cache: true
-  #   networks:
-  #     - lab2network
+  adder:
+    build:
+      context: ./adder
+      no_cache: true
+    networks:
+      - lab2network
 
 networks:
   lab2network:
