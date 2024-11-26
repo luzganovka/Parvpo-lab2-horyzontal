@@ -4,6 +4,7 @@
 #include "json.hpp"
 #include <cmath>
 #include <list>
+#include <curl/curl.h>
 
 
 
@@ -241,6 +242,17 @@ int main() {
                 std::chrono::duration<double, std::milli> duration = timer2 - timer1;
 
                 std::cout << "Time: " << duration.count() << " ms" << std::endl;
+
+/////////// VARIANT 4
+                CURL *handle;
+                CURLcode res;
+
+                handle = curl_easy_init();
+                char *data="my test data";
+                curl_easy_setopt(handle, CURLOPT_POSTFIELDS, data);
+                curl_easy_setopt(handle, CURLOPT_URL, "http://adder:8080/");
+            
+                curl_easy_perform(handle); /* post away! */
 
                 exit(0);
             }

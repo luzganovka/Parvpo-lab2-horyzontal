@@ -80,6 +80,13 @@ services:
         limits:
           cpus: "3"
 
+  # adder:
+  #   build:
+  #     context: ./adder
+  #     no_cache: true
+  #   networks:
+  #     - lab2network
+
 networks:
   lab2network:
 #    ipam:
