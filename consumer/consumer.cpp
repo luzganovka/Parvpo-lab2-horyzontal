@@ -17,6 +17,27 @@ std::list<T> vectorToList(const std::vector<T>& vec) {
     return std::list<T>(vec.begin(), vec.end());
 }
 
+char* listToCharSequence(const std::list<int>& lst, char delimiter) {
+    // Use a stringstream to build the string
+    std::ostringstream oss;
+
+    for (auto it = lst.begin(); it != lst.end(); ++it) {
+        oss << *it;
+        if (std::next(it) != lst.end()) { // Add delimiter except for the last element
+            oss << delimiter;
+        }
+    }
+
+    // Convert the stringstream to a string
+    std::string result = oss.str();
+
+    // Allocate memory for char* and copy the string content
+    char* charSequence = new char[result.size() + 1]; // +1 for the null terminator
+    std::strcpy(charSequence, result.c_str());
+
+    return charSequence; // Return the dynamically allocated char*
+}
+
 // std::vector<int> matrixMultiply(const std::vector<int>& matrix1, const std::vector<int>& matrix2, int size) {
 //     std::list<int> result(size * size, 0);
 
@@ -223,11 +244,13 @@ int main() {
 
             if (got_data == 2) {
                 std::cout << "Result: " << std::endl;
+                
+                std::list<int> result;
 
                 auto timer1 = std::chrono::high_resolution_clock::now();
 
                 if (isPerfectSquare(matrix1_demo.size()) && isPerfectSquare(matrix2_demo.size())) {
-                    std::list<int> result = pieceMatrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()), p_num, pid);
+                    result = pieceMatrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()), p_num, pid);
 
                     std::cout << "consumer " << pid << " of " << p_num - 1 << " has calculated matrix of size "
                         << result.size() / sqrt(matrix1_demo.size()) << " * " << sqrt(matrix1_demo.size()) << std::endl;
@@ -248,10 +271,11 @@ int main() {
                 CURLcode res;
 
                 handle = curl_easy_init();
-                char *data="my test data";
-                curl_easy_setopt(handle, CURLOPT_POSTFIELDS, data);
-                curl_easy_setopt(handle, CURLOPT_URL, "http://adder:8080/");
-            
+                
+                char* charData = listToCharSequence(result, ',');
+                curl_easy_setopt(handle, CURLOPT_POSTFIELDS, charData);
+                curl_easy_setopt(handle, CURLOPT_URL, "http://adder:8080/");            
+                
                 curl_easy_perform(handle); /* post away! */
 
                 exit(0);
