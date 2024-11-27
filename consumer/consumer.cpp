@@ -38,6 +38,19 @@ char* listToCharSequence(const std::list<int>& lst, char delimiter) {
     return charSequence; // Return the dynamically allocated char*
 }
 
+std::string listToString(const std::list<int>& intList) {
+    std::ostringstream oss;
+    
+    for (auto it = intList.begin(); it != intList.end(); ++it) {
+        oss << *it; // Add the integer to the stream
+        if (std::next(it) != intList.end()) {
+            oss << ", "; // Add a separator if it's not the last element
+        }
+    }
+    
+    return oss.str();
+}
+
 // std::vector<int> matrixMultiply(const std::vector<int>& matrix1, const std::vector<int>& matrix2, int size) {
 //     std::list<int> result(size * size, 0);
 
@@ -269,14 +282,26 @@ int main() {
 /////////// VARIANT 4
                 CURL *handle;
                 CURLcode res;
-
                 handle = curl_easy_init();
-                
+
+                // Set the POST data
                 char* charData = listToCharSequence(result, ',');
                 curl_easy_setopt(handle, CURLOPT_POSTFIELDS, charData);
+
+                // Create a list of headers
+                struct curl_slist *headers = NULL;
+                headers = curl_slist_append(headers, "My custom field: yes");
+                headers = curl_slist_append(headers, "Content-Type: text/plain");
+                headers = curl_slist_append(headers, ("pid: " + std::to_string(pid)).c_str());
+
+                // Set the headers for the request
+                curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
+                
                 curl_easy_setopt(handle, CURLOPT_URL, "http://adder:8080/");            
                 
                 curl_easy_perform(handle); /* post away! */
+
+                curl_easy_cleanup(handle);
 
                 exit(0);
             }

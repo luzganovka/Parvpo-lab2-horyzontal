@@ -141,8 +141,10 @@ int main() {
         [&](const crow::request& req, crow::response& res) {
 
             std::cout << ">>> ADDER GOT SOME POST!" << std::endl;
+
             // // Read the HTTP request
-            // std::string requestContent = req.body;
+            std::string requestContent = req.body;
+            std::cout << requestContent << std::endl;
             
             // // Check the type of producer
             // auto tmp = getData(requestContent);
