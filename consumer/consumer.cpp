@@ -290,7 +290,7 @@ int main() {
 
                 // Create a list of headers
                 struct curl_slist *headers = NULL;
-                headers = curl_slist_append(headers, "My custom field: yes");
+                headers = curl_slist_append(headers, "My-Custom-Field: yes");
                 headers = curl_slist_append(headers, "Content-Type: text/plain");
                 headers = curl_slist_append(headers, ("pid: " + std::to_string(pid)).c_str());
 
