@@ -292,7 +292,8 @@ int main() {
                 struct curl_slist *headers = NULL;
                 headers = curl_slist_append(headers, "My-Custom-Field: yes");
                 headers = curl_slist_append(headers, "Content-Type: text/plain");
-                headers = curl_slist_append(headers, ("pid: " + std::to_string(pid)).c_str());
+                headers = curl_slist_append(headers, ("pid: "   + std::to_string(pid  )).c_str());
+                headers = curl_slist_append(headers, ("p-num: " + std::to_string(p_num)).c_str());
 
                 // Set the headers for the request
                 curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
