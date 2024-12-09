@@ -264,9 +264,10 @@ int main() {
 
                 if (isPerfectSquare(matrix1_demo.size()) && isPerfectSquare(matrix2_demo.size())) {
                     result = pieceMatrixMultiply(vectorToList(matrix1_demo), vectorToList(matrix2_demo), sqrt(matrix1_demo.size()), p_num, pid);
-
-                    std::cout << "consumer " << pid << " of " << p_num - 1 << " has calculated matrix of size "
-                        << result.size() / sqrt(matrix1_demo.size()) << " * " << sqrt(matrix1_demo.size()) << std::endl;
+                    std::cout << "consumer " << pid << " of " << p_num - 1 <<
+                        " has calculated matrix of size " << result.size() << std::endl;
+                    // std::cout << "consumer " << pid << " of " << p_num - 1 << " has calculated matrix of size "
+                    //     << result.size() / sqrt(matrix1_demo.size()) << " * " << sqrt(matrix1_demo.size()) << std::endl;
                     // for (int i = 0; i < result.size(); i++) {
                     //     std::cout << result[i] << " ";
                     // }
@@ -277,7 +278,7 @@ int main() {
 
                 std::chrono::duration<double, std::milli> duration = timer2 - timer1;
 
-                std::cout << "Time: " << duration.count() << " ms" << std::endl;
+                std::cout << "Consumer time: " << duration.count() << " ms" << std::endl;
 
 /////////// VARIANT 4
                 CURL *handle;
@@ -294,6 +295,7 @@ int main() {
                 headers = curl_slist_append(headers, "Content-Type: text/plain");
                 headers = curl_slist_append(headers, ("pid: "   + std::to_string(pid  )).c_str());
                 headers = curl_slist_append(headers, ("p-num: " + std::to_string(p_num)).c_str());
+                headers = curl_slist_append(headers, ("time-spent: " + std::to_string(duration.count())).c_str());
 
                 // Set the headers for the request
                 curl_easy_setopt(handle, CURLOPT_HTTPHEADER, headers);
